@@ -1,11 +1,27 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
     public GameObject bulletPrefab;
-    public Transform bulletSpawn;
+    public float projectileOffset;
+    public Transform playerPosition;
+
+  
+
     
+
+    [SerializeField] private Animator _animator;
+
+
+
+    private void Start()
+    {
+        
+    }
+
     void Update()
     {
         float move = Input.GetAxis("Horizontal");
@@ -14,11 +30,24 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             Shoot();
+            _animator.SetBool("isShooting", true);
         }
+        else
+        {
+            _animator.SetBool("isShooting", false);
+        }
+
+
+        
     }
 
     void Shoot()
     {
-        Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+        Vector3 offset = new Vector3(0f, 2f, 0f);
+        Vector3 spawnPos = transform.position + offset;
+
+        Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
+
+        
     }
 }
